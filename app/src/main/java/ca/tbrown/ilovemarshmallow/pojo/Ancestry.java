@@ -1,8 +1,6 @@
 package ca.tbrown.ilovemarshmallow.pojo;
 
-/**
- * Created by tmast_000 on 9/8/2015.
- */
+
 public class Ancestry {
 
     private Integer count;

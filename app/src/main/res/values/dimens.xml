@@ -5,4 +5,6 @@
     <dimen name="searchbox_width">350dp</dimen>
     <dimen name="searchbutton_width">250dp</dimen>
     <dimen name="toolbar_margin">16dp</dimen>
+    <dimen name="cardview_margin">16dp</dimen>
+    <dimen name="cardview_height">150dp</dimen>
 </resources>

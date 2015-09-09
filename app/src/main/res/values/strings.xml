@@ -8,4 +8,8 @@
     <string name="hint_searchbox">Search products</string>
     <string name="search_button">Search</string>
     <string name="title_activity_search_results">SearchResultsActivity</string>
+    <string name="sample_text_tvBrand">Nike</string>
+    <string name="sample_text_tvProductName">Sneakers Size 10</string>
+    <string name="sample_text_tvPrice">$99.99</string>
+    <string name="sample_text_tvRating">10</string>
 </resources>

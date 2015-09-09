@@ -37,7 +37,7 @@ public class Result {
         this.productName = productName;
     }
 
-    Result()
+
     /**
      * @return The brandName
      */

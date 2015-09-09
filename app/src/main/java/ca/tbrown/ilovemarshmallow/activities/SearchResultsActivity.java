@@ -2,6 +2,7 @@ package ca.tbrown.ilovemarshmallow.activities;
 
 import android.app.SearchManager;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,9 +16,15 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.tbrown.ilovemarshmallow.Constants;
 import ca.tbrown.ilovemarshmallow.R;
+import ca.tbrown.ilovemarshmallow.adapters.ResultAdapter;
+import ca.tbrown.ilovemarshmallow.api.ZapposAPI;
 import ca.tbrown.ilovemarshmallow.pojo.Response;
 import ca.tbrown.ilovemarshmallow.pojo.Result;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
 
 public class SearchResultsActivity extends BaseActivity {
 
@@ -25,49 +32,30 @@ public class SearchResultsActivity extends BaseActivity {
     private Toolbar toolbar;
     private SearchView searchbox;
     private RecyclerView rvResults;
+
     // Business Logic
     private String searchQuery;
-    private Response response;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
         searchQuery = getSearchQuery();
-        setupToolbar(searchQuery);
-        searchForProduct(searchQuery);
-        getData();
+        setupToolbar();
         setupRecyclerView();
-
+        searchForProducts(searchQuery);
     }
 
-    private void getData() {
-        response = new Response();
-        List<Result> data = new ArrayList<Result>();
-        //String brandName, Object originalPrice, String price, String imageUrl, String asin, String productUrl, Double productRating, Object map, String productName)
-        data.add(new Result("Nike","99.99","44.55","www.google.com","4rd1kc93d3","www.google.com",4.0,null,"Towel"));
-        data.add(new Result("Nike","99.99","44.55","www.google.com","4rd1kc93d3","www.google.com",4.0,null,"Towel"));
-        data.add(new Result("Nike","99.99","44.55","www.google.com","4rd1kc93d3","www.google.com",4.0,null,"Towel"));
-        response.setResults(data);
+    private void setupToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
     }
 
     private void setupRecyclerView() {
         rvResults = (RecyclerView) findViewById(R.id.rvResults);
         rvResults.setHasFixedSize(true);
         rvResults.setLayoutManager(new LinearLayoutManager(activityContext));
-
-    }
-
-    private void setupToolbar(String query) {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
-
-    }
-
-    private void searchForProduct(String query) {
-
     }
 
     private String getSearchQuery() {
@@ -79,6 +67,28 @@ public class SearchResultsActivity extends BaseActivity {
         return query;
     }
 
+    private void searchForProducts(String query) {
+
+        RestAdapter retrofit = new RestAdapter.Builder()
+                .setEndpoint(Constants.BASE_URL)
+                .build();
+
+        ZapposAPI api = retrofit.create(ZapposAPI.class);
+
+        api.searchZappos(query, new Callback<Response>() {
+            @Override
+            public void success(Response apiResponse, retrofit.client.Response response) {
+                ResultAdapter adapter = new ResultAdapter(apiResponse.getResults());
+                rvResults.setAdapter(adapter);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -88,7 +98,6 @@ public class SearchResultsActivity extends BaseActivity {
         searchbox.requestFocus();
         searchbox.setQuery(searchQuery,false);
         return true;
-
     }
 
     @Override
