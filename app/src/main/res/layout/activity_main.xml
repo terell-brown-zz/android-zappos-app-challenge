@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+    <TextView
+        android:id="@+id/tvCompany"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="169dp"
+        android:text="@string/zappos"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_gravity="center"/>
+
+    <android.support.v7.widget.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="@dimen/searchbox_width"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_searchbox"
+        android:layout_marginTop="32dp"
+        android:layout_gravity="center"
+        android:queryHint="@string/hint_searchbox"/>
+
+</LinearLayout>
