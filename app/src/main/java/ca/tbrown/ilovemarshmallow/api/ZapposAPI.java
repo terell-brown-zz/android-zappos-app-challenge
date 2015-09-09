@@ -1,6 +1,6 @@
 package ca.tbrown.ilovemarshmallow.api;
 
-import ca.tbrown.ilovemarshmallow.pojo.Asin;
+import ca.tbrown.ilovemarshmallow.pojo.Product;
 import ca.tbrown.ilovemarshmallow.pojo.Response;
 import retrofit.Callback;
 import retrofit.http.GET;
@@ -11,8 +11,14 @@ import retrofit.http.Query;
 public interface ZapposAPI {
 
     @GET("/mobileapi/v1/search")
-    void searchZappos(@Query("term") String query, Callback<Response> responseCallback);
+    void searchProducts(
+            @Query("term") String query,
+            Callback<Response> responseCallback
+    );
 
-    @GET("https://zappos.amazon.com/mobileapi/v1/product/asin/{asin}")
-    Asin searchByAsin(@Path("asin") String asin);
+    @GET("/mobileapi/v1/product/asin/{asin}")
+    void searchByAsin(
+            @Path("asin") String asin,
+            Callback<Product> productCallback
+    );
 }

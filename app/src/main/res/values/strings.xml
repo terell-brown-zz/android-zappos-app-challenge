@@ -12,4 +12,5 @@
     <string name="sample_text_tvProductName">Sneakers Size 10</string>
     <string name="sample_text_tvPrice">$99.99</string>
     <string name="sample_text_tvRating">10</string>
+    <string name="title_activity_product">ProductActivity</string>
 </resources>

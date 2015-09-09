@@ -7,16 +7,16 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 
 
-public class Asin {
+public class Product {
 
 
-    private Object brandName;
-    private Object description;
+    private String brandName;
+    private String description;
     private String asin;
     private Object genders;
-    private Object defaultProductType;
-    private Object productName;
-    private Object defaultImageUrl;
+    private String defaultProductType;
+    private String productName;
+    private String defaultImageUrl;
     private List<Object> childAsins = new ArrayList<Object>();
 
     /**
@@ -33,7 +33,7 @@ public class Asin {
      * @param brandName
      * The brandName
      */
-    public void setBrandName(Object brandName) {
+    public void setBrandName(String brandName) {
         this.brandName = brandName;
     }
 
@@ -51,7 +51,7 @@ public class Asin {
      * @param description
      * The description
      */
-    public void setDescription(Object description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -105,7 +105,7 @@ public class Asin {
      * @param defaultProductType
      * The defaultProductType
      */
-    public void setDefaultProductType(Object defaultProductType) {
+    public void setDefaultProductType(String defaultProductType) {
         this.defaultProductType = defaultProductType;
     }
 
@@ -114,7 +114,7 @@ public class Asin {
      * @return
      * The productName
      */
-    public Object getProductName() {
+    public String getProductName() {
         return productName;
     }
 
@@ -123,7 +123,7 @@ public class Asin {
      * @param productName
      * The productName
      */
-    public void setProductName(Object productName) {
+    public void setProductName(String productName) {
         this.productName = productName;
     }
 
@@ -141,7 +141,7 @@ public class Asin {
      * @param defaultImageUrl
      * The defaultImageUrl
      */
-    public void setDefaultImageUrl(Object defaultImageUrl) {
+    public void setDefaultImageUrl(String defaultImageUrl) {
         this.defaultImageUrl = defaultImageUrl;
     }
 

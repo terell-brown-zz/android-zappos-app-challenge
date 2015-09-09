@@ -6,7 +6,7 @@
     android:layout_margin="@dimen/cardview_margin">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/cv"
+        android:id="@+id/cvResult"
         android:layout_width="match_parent"
         android:layout_height="@dimen/cardview_height"
         android:elevation="4dp">

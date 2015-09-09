@@ -19,6 +19,7 @@ import java.util.List;
 import ca.tbrown.ilovemarshmallow.Constants;
 import ca.tbrown.ilovemarshmallow.R;
 import ca.tbrown.ilovemarshmallow.adapters.ResultAdapter;
+import ca.tbrown.ilovemarshmallow.api.Zappos;
 import ca.tbrown.ilovemarshmallow.api.ZapposAPI;
 import ca.tbrown.ilovemarshmallow.pojo.Response;
 import ca.tbrown.ilovemarshmallow.pojo.Result;
@@ -69,16 +70,10 @@ public class SearchResultsActivity extends BaseActivity {
 
     private void searchForProducts(String query) {
 
-        RestAdapter retrofit = new RestAdapter.Builder()
-                .setEndpoint(Constants.BASE_URL)
-                .build();
-
-        ZapposAPI api = retrofit.create(ZapposAPI.class);
-
-        api.searchZappos(query, new Callback<Response>() {
+        Zappos.getAPI().searchProducts(query, new Callback<Response>() {
             @Override
             public void success(Response apiResponse, retrofit.client.Response response) {
-                ResultAdapter adapter = new ResultAdapter(apiResponse.getResults());
+                ResultAdapter adapter = new ResultAdapter(activityContext, apiResponse.getResults());
                 rvResults.setAdapter(adapter);
             }
 

@@ -1,5 +1,6 @@
 package ca.tbrown.ilovemarshmallow.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +17,15 @@ import ca.tbrown.ilovemarshmallow.viewholders.ResultViewHolder;
  */
 public class ResultAdapter extends RecyclerView.Adapter<ResultViewHolder> {
 
+    private Context activityContext;
     private List<Result> results;
 
     public ResultAdapter(List<Result> results) {
+        this.results = results;
+    }
+
+    public ResultAdapter(Context activityContext, List<Result> results) {
+        this.activityContext = activityContext;
         this.results = results;
     }
 
@@ -26,7 +33,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultViewHolder> {
     public ResultViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.viewholder_result, viewGroup, false);
 
-        return new ResultViewHolder(v);
+        return new ResultViewHolder(activityContext,v);
     }
 
     @Override

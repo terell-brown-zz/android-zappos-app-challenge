@@ -5,7 +5,12 @@ package ca.tbrown.ilovemarshmallow;
  */
 public class Constants {
 
-    public static String QUERY = "__QUERY__";
-    public static String BASE_URL = "https://zappos.amazon.com";
-    public static String SEARCH_URL="/mobileapi/v1/search?term=";
+    public static final String ASIN = "__ASIN__" ;
+    public static final String QUERY = "__QUERY__";
+    public static final String BASE_URL = "https://zappos.amazon.com";
+    public static final String SEARCH_URL="/mobileapi/v1/search?term=";
+    public static final String IMAGE = "__IMAGE__";
+    public static final String RATING = "__RATING__";
+    public static final String PRICE = "__PRICE__";
+    public static String PRODUCT = "__PRODUCT__";
 }
