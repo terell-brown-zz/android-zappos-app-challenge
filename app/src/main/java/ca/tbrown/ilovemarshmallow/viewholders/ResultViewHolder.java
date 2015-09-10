@@ -58,16 +58,17 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
         // Load Image from URL
         Picasso.with(activityContext).load(result.getImageUrl()).into(imgProduct);
 
-        // Populate Views
-        tvPrice.setText(price);
-        tvProductName.setText(result.getProductName());
-        tvRating.setText(rating);
-
         // Store important values
         price = result.getPrice();
         rating = Double.toString(result.getProductRating());
         asin = result.getAsin();
+
+        // Populate Views
+        tvPrice.setText(price);
+        tvProductName.setText(result.getProductName());
+        tvRating.setText(rating);
     }
+
 
     @OnClick(R.id.cvResult)
     public void showProductDetails() {
