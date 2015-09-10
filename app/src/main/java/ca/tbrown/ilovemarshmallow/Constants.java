@@ -12,5 +12,7 @@ public class Constants {
     public static final String IMAGE = "__IMAGE__";
     public static final String RATING = "__RATING__";
     public static final String PRICE = "__PRICE__";
+    public static final String SEARCH_RESULTS = "__SEARCH_RESULTS__";
+    public static final String IMAGE_URL = "__IMAGE_URL__" ;
     public static String PRODUCT = "__PRODUCT__";
 }

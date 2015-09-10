@@ -7,7 +7,7 @@ public class Response extends BaseResponse {
 
     private Integer totalResults;
 
-    private List<Result> results = new ArrayList<Result>();
+    private ArrayList<Result> results = new ArrayList<Result>();
 
     private Refinements refinements;
 
@@ -28,14 +28,14 @@ public class Response extends BaseResponse {
     /**
      * @return The results
      */
-    public List<Result> getResults() {
+    public ArrayList<Result> getResults() {
         return results;
     }
 
     /**
      * @param results The results
      */
-    public void setResults(List<Result> results) {
+    public void setResults(ArrayList<Result> results) {
         this.results = results;
     }
 

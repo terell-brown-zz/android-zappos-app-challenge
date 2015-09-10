@@ -42,6 +42,8 @@ public class SearchResultsActivity extends SearchBarActivity {
     // UI
     private RecyclerView rvResults;
     private LinearLayout activityLayout;
+    private ArrayList<Result> searchResults;
+
 
 
     @Override
@@ -52,7 +54,30 @@ public class SearchResultsActivity extends SearchBarActivity {
         searchQuery = getSearchQuery();
         setupToolbar();
         setupRecyclerView();
-        searchForProducts(searchQuery);
+
+        if (savedInstanceState != null) {
+            restoreSearchData(savedInstanceState);
+            populateRecyclerView();
+        } else {
+            searchForProducts(searchQuery);
+        }
+    }
+
+    private void restoreSearchData(Bundle savedInstanceState) {
+        searchQuery = savedInstanceState.getString(Constants.QUERY);
+        searchResults = savedInstanceState.getParcelableArrayList(Constants.SEARCH_RESULTS);
+    }
+
+    private void populateRecyclerView() {
+        ResultAdapter adapter = new ResultAdapter(activityContext, searchResults);
+        rvResults.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString(Constants.QUERY, searchQuery);
+        outState.putParcelableArrayList(Constants.SEARCH_RESULTS, searchResults);
+        super.onSaveInstanceState(outState);
     }
 
     private void setupRecyclerView() {
@@ -89,19 +114,14 @@ public class SearchResultsActivity extends SearchBarActivity {
             @Override
             public void success(Response apiResponse, retrofit.client.Response response) {
 
+                searchResults = apiResponse.getResults();
                 ResultAdapter adapter = new ResultAdapter(activityContext, apiResponse.getResults());
                 rvResults.setAdapter(adapter);
-
             }
 
             @Override
             public void failure(RetrofitError error) {
-                rvResults.setVisibility(View.INVISIBLE);
-                Toast.makeText(activityContext, error.getMessage(), Toast.LENGTH_LONG).show();
-//                TextView tvError = new TextView(activityContext);
-//                tvError.setText("No results found! Pleaset try another search term");
-//                activityLayout = new LinearLayout(activityContext);
-//                activityLayout.addView(tvError);
+                Toast.makeText(activityContext, "No search results found", Toast.LENGTH_SHORT).show();
             }
         });
     }

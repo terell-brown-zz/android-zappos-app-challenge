@@ -59,7 +59,6 @@ public class SearchBarActivity extends BaseActivity {
                 break;
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
-                NavUtils.nav
                 break;
             default:
                 return super.onOptionsItemSelected(item);

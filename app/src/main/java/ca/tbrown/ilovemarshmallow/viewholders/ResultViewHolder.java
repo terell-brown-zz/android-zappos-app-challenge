@@ -45,6 +45,7 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
     private String asin;
     private String price;
     private String rating;
+    private String imgURL;
 
 
     public ResultViewHolder(Context c,View itemView) {
@@ -56,12 +57,14 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
     public void bind(Result result) {
 
         // Load Image from URL
-        Picasso.with(activityContext).load(result.getImageUrl()).into(imgProduct);
+        imgURL = result.getImageUrl();
+        Picasso.with(activityContext).load(imgURL).into(imgProduct);
 
         // Store important values
         price = result.getPrice();
         rating = Double.toString(result.getProductRating());
         asin = result.getAsin();
+
 
         // Populate Views
         tvPrice.setText(price);
@@ -77,6 +80,7 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
         intent.putExtra(Constants.PRICE, price);
         intent.putExtra(Constants.RATING, rating);
         intent.putExtra(Constants.ASIN, asin);
+        intent.putExtra(Constants.IMAGE_URL,imgURL);
 
         activityContext.startActivity(intent);
     }

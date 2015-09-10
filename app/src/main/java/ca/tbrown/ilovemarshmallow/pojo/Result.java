@@ -1,16 +1,19 @@
 package ca.tbrown.ilovemarshmallow.pojo;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by tmast_000 on 9/8/2015.
  */
 
-public class Result {
+public class Result implements Parcelable {
 
 
     private String brandName;
 
-    private Object originalPrice;
-
+    //private Object originalPrice;
+    private String originalPrice;
     private String price;
 
     private String imageUrl;
@@ -21,11 +24,11 @@ public class Result {
 
     private Double productRating;
 
-    private Object map;
-
+    //private Object map;
+    private String map;
     private String productName;
 
-    public Result(String brandName, Object originalPrice, String price, String imageUrl, String asin, String productUrl, Double productRating, Object map, String productName) {
+    public Result(String brandName, String originalPrice, String price, String imageUrl, String asin, String productUrl, Double productRating, String map, String productName) {
         this.brandName = brandName;
         this.originalPrice = originalPrice;
         this.price = price;
@@ -35,6 +38,47 @@ public class Result {
         this.productRating = productRating;
         this.map = map;
         this.productName = productName;
+    }
+
+    protected Result(Parcel in) {
+        brandName = in.readString();
+        originalPrice = in.readString();
+        price = in.readString();
+        imageUrl = in.readString();
+        asin = in.readString();
+        productUrl = in.readString();
+        map = in.readString();
+        productName = in.readString();
+    }
+
+    public static final Creator<Result> CREATOR = new Creator<Result>() {
+        @Override
+        public Result createFromParcel(Parcel in) {
+            return new Result(in);
+        }
+
+        @Override
+        public Result[] newArray(int size) {
+            return new Result[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(brandName);
+        dest.writeString(productName);
+        dest.writeString(price);
+        dest.writeString(imageUrl);
+        dest.writeString(asin);
+        dest.writeString(productUrl);
+        dest.writeDouble(productRating);
+        dest.writeString(map);
+        dest.writeString(originalPrice);
     }
 
 
@@ -55,14 +99,14 @@ public class Result {
     /**
      * @return The originalPrice
      */
-    public Object getOriginalPrice() {
+    public String getOriginalPrice() {
         return originalPrice;
     }
 
     /**
      * @param originalPrice The originalPrice
      */
-    public void setOriginalPrice(Object originalPrice) {
+    public void setOriginalPrice(String originalPrice) {
         this.originalPrice = originalPrice;
     }
 
@@ -139,14 +183,14 @@ public class Result {
     /**
      * @return The map
      */
-    public Object getMap() {
+    public String getMap() {
         return map;
     }
 
     /**
      * @param map The map
      */
-    public void setMap(Object map) {
+    public void setMap(String map) {
         this.map = map;
     }
 
@@ -163,5 +207,6 @@ public class Result {
     public void setProductName(String productName) {
         this.productName = productName;
     }
+
 
 }

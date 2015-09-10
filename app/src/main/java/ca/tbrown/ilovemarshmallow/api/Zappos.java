@@ -18,5 +18,4 @@ public class Zappos {
 
         return api;
     }
-
 }
