@@ -3,10 +3,16 @@ package ca.tbrown.ilovemarshmallow.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,6 +28,8 @@ public class ProductActivity extends BaseActivity {
 
     // UI
     private Toolbar toolbar;
+    @Bind(R.id.viewContainer) LinearLayout viewContainer;
+    @Bind(R.id.imgProduct) ImageView imgProduct;
     @Bind(R.id.tvProductName) TextView tvProductName;
     @Bind(R.id.tvPrice) TextView tvPrice;
     @Bind(R.id.tvRating) TextView tvRating;
@@ -40,12 +48,12 @@ public class ProductActivity extends BaseActivity {
         ButterKnife.bind(this);
         setupToolbar();
         handleIntent(getIntent());
+
         getProductDetails();
     }
 
     private void handleIntent(Intent intent) {
         asin = intent.getStringExtra(Constants.ASIN);
-        imageURL = intent.getStringExtra(Constants.IMAGE);
         price = intent.getStringExtra(Constants.PRICE);
         rating = intent.getStringExtra(Constants.RATING);
     }
@@ -54,16 +62,28 @@ public class ProductActivity extends BaseActivity {
         Zappos.getAPI().searchByAsin(asin, new Callback<Product>() {
             @Override
             public void success(Product productDetails, Response response) {
-                tvProductName.setText(productDetails.getProductName());
-                tvPrice.setText(price);
-                tvRating.setText(rating);
+                updateProductDetails(productDetails);
             }
 
             @Override
             public void failure(RetrofitError error) {
+                viewContainer.setVisibility(View.INVISIBLE);
+                Log.e("NONe", error.getMessage());
                 Toast.makeText(activityContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                new TextView(activityContext).setText("No results found.");
             }
         });
+    }
+
+    private void updateProductDetails(Product product) {
+
+        // Load Image from URL to ImageView
+        Picasso.with(activityContext).load(product.getDefaultImageUrl()).into(imgProduct);
+
+        // Populate TextViews
+        tvProductName.setText(product.getProductName());
+        tvPrice.setText(price);
+        tvRating.setText(rating);
     }
 
     private void setupToolbar() {

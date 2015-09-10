@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import org.w3c.dom.Text;
 
 import butterknife.Bind;
@@ -34,16 +36,13 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
 
     // Views
     @Bind(R.id.cvResult) CardView cvResult;
-    private ImageView image;
-    //@Bind(R.id.tvBrand) TextView tvbrand;
+    @Bind(R.id.ivResult) ImageView imgProduct;
     @Bind(R.id.tvProductName) TextView tvProductName;
     @Bind(R.id.tvPrice) TextView tvPrice;
     @Bind(R.id.tvRating) TextView tvRating;
 
     // Business Logic
     private String asin;
-    private String productImageURL;
-    private Object product;
     private String price;
     private String rating;
 
@@ -55,14 +54,19 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(Result result) {
-        price = result.getPrice();
-        rating = Double.toString(result.getProductRating());
-        asin = result.getAsin();
-        productImageURL = result.getImageUrl();
 
+        // Load Image from URL
+        Picasso.with(activityContext).load(result.getImageUrl()).into(imgProduct);
+
+        // Populate Views
         tvPrice.setText(price);
         tvProductName.setText(result.getProductName());
         tvRating.setText(rating);
+
+        // Store important values
+        price = result.getPrice();
+        rating = Double.toString(result.getProductRating());
+        asin = result.getAsin();
     }
 
     @OnClick(R.id.cvResult)
@@ -72,7 +76,7 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
         intent.putExtra(Constants.PRICE, price);
         intent.putExtra(Constants.RATING, rating);
         intent.putExtra(Constants.ASIN, asin);
-        intent.putExtra(Constants.IMAGE, productImageURL);
+
         activityContext.startActivity(intent);
     }
 }

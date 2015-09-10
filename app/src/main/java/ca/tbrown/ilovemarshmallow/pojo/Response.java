@@ -3,7 +3,7 @@ package ca.tbrown.ilovemarshmallow.pojo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Response {
+public class Response extends BaseResponse {
 
     private Integer totalResults;
 
@@ -54,5 +54,4 @@ public class Response {
     }
 
 }
-
 

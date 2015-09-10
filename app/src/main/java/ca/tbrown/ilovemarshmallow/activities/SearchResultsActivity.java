@@ -8,14 +8,21 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import ca.tbrown.ilovemarshmallow.Constants;
 import ca.tbrown.ilovemarshmallow.R;
 import ca.tbrown.ilovemarshmallow.adapters.ResultAdapter;
@@ -33,6 +40,7 @@ public class SearchResultsActivity extends BaseActivity {
     private Toolbar toolbar;
     private SearchView searchbox;
     private RecyclerView rvResults;
+    private LinearLayout activityLayout;
 
     // Business Logic
     private String searchQuery;
@@ -41,6 +49,7 @@ public class SearchResultsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
+        ButterKnife.bind(this);
         searchQuery = getSearchQuery();
         setupToolbar();
         setupRecyclerView();
@@ -73,13 +82,20 @@ public class SearchResultsActivity extends BaseActivity {
         Zappos.getAPI().searchProducts(query, new Callback<Response>() {
             @Override
             public void success(Response apiResponse, retrofit.client.Response response) {
+
                 ResultAdapter adapter = new ResultAdapter(activityContext, apiResponse.getResults());
                 rvResults.setAdapter(adapter);
+
             }
 
             @Override
             public void failure(RetrofitError error) {
-
+                rvResults.setVisibility(View.INVISIBLE);
+                Toast.makeText(activityContext,error.getMessage(),Toast.LENGTH_LONG).show();
+//                TextView tvError = new TextView(activityContext);
+//                tvError.setText("No results found! Pleaset try another search term");
+//                activityLayout = new LinearLayout(activityContext);
+//                activityLayout.addView(tvError);
             }
         });
     }
@@ -91,7 +107,7 @@ public class SearchResultsActivity extends BaseActivity {
         searchbox = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchbox.setIconifiedByDefault(false);
         searchbox.requestFocus();
-        searchbox.setQuery(searchQuery,false);
+        searchbox.setQuery(searchQuery, false);
         return true;
     }
 

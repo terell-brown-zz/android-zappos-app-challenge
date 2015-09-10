@@ -24,7 +24,7 @@ public class Product {
      * @return
      * The brandName
      */
-    public Object getBrandName() {
+    public String getBrandName() {
         return brandName;
     }
 
@@ -42,7 +42,7 @@ public class Product {
      * @return
      * The description
      */
-    public Object getDescription() {
+    public String getDescription() {
         return description;
     }
 
@@ -96,7 +96,7 @@ public class Product {
      * @return
      * The defaultProductType
      */
-    public Object getDefaultProductType() {
+    public String getDefaultProductType() {
         return defaultProductType;
     }
 
@@ -132,7 +132,7 @@ public class Product {
      * @return
      * The defaultImageUrl
      */
-    public Object getDefaultImageUrl() {
+    public String getDefaultImageUrl() {
         return defaultImageUrl;
     }
 
