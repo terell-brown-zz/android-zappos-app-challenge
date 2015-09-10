@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -36,16 +37,11 @@ import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 
-public class SearchResultsActivity extends BaseActivity {
+public class SearchResultsActivity extends SearchBarActivity {
 
     // UI
-    private Toolbar toolbar;
-    private SearchView searchbox;
     private RecyclerView rvResults;
     private LinearLayout activityLayout;
-
-    // Business Logic
-    private String searchQuery;
 
 
     @Override
@@ -57,12 +53,6 @@ public class SearchResultsActivity extends BaseActivity {
         setupToolbar();
         setupRecyclerView();
         searchForProducts(searchQuery);
-    }
-
-    private void setupToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
     }
 
     private void setupRecyclerView() {
@@ -79,7 +69,6 @@ public class SearchResultsActivity extends BaseActivity {
         will be recycled and the onNewIntent method will be called to handle the intent used
         to launch the 'new instance
          */
-
         setIntent(intent);
         searchQuery = getSearchQuery();
         searchForProducts(searchQuery);
@@ -118,36 +107,5 @@ public class SearchResultsActivity extends BaseActivity {
     }
 
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_search_results, menu);
-        setupSearchBox(menu);
-        return true;
-    }
-
-    private void setupSearchBox(Menu menu) {
-
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
-
-        searchbox = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        searchbox.setSearchableInfo(searchableInfo);
-        searchbox.setIconifiedByDefault(false);
-        searchbox.requestFocus();
-        searchbox.setQuery(searchQuery, false);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
 }

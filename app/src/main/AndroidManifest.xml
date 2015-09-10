@@ -43,11 +43,16 @@
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" /> <!-- search config file -->
-
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ca.tbrown.ilovemarshmallow.activities.MainActivity" />
         </activity>
         <activity
             android:name=".activities.ProductActivity"
             android:label="@string/title_activity_product" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ca.tbrown.ilovemarshmallow.activities.SearchResultsActivity" />
         </activity>
     </application>
 

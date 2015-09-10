@@ -2,6 +2,7 @@ package ca.tbrown.ilovemarshmallow.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -24,10 +25,12 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class ProductActivity extends BaseActivity {
+public class ProductActivity extends SearchBarActivity {
 
     // UI
     private Toolbar toolbar;
+    private SearchView searchbox;
+
     @Bind(R.id.viewContainer) LinearLayout viewContainer;
     @Bind(R.id.imgProduct) ImageView imgProduct;
     @Bind(R.id.tvProductName) TextView tvProductName;
@@ -48,7 +51,6 @@ public class ProductActivity extends BaseActivity {
         ButterKnife.bind(this);
         setupToolbar();
         handleIntent(getIntent());
-
         getProductDetails();
     }
 
@@ -86,31 +88,4 @@ public class ProductActivity extends BaseActivity {
         tvRating.setText(rating);
     }
 
-    private void setupToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_product, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }
