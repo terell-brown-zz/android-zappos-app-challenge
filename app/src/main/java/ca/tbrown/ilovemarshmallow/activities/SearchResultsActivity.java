@@ -125,7 +125,7 @@ public class SearchResultsActivity extends SearchBarActivity {
 
             @Override
             public void failure(RetrofitError error) {
-                Toast.makeText(activityContext, "No search results found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "No search results found", Toast.LENGTH_SHORT).show();
             }
         });
     }
