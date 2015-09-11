@@ -22,6 +22,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import ca.tbrown.ilovemarshmallow.Constants;
 import ca.tbrown.ilovemarshmallow.R;
+import ca.tbrown.ilovemarshmallow.Util;
 import ca.tbrown.ilovemarshmallow.api.Zappos;
 import ca.tbrown.ilovemarshmallow.pojo.Product;
 import retrofit.Callback;
@@ -74,10 +75,13 @@ public class ProductActivity extends SearchBarActivity {
     }
 
     private void handleIntent(Intent intent) {
+        searchQuery = intent.getStringExtra(Constants.QUERY);
         asin = intent.getStringExtra(Constants.ASIN);
         price = intent.getStringExtra(Constants.PRICE);
         rating = intent.getStringExtra(Constants.RATING);
-        imageURL = intent.getStringExtra(Constants.IMAGE_URL);
+        imageURL = Util.resizeImageByURL(intent.getStringExtra(Constants.IMAGE_URL),
+                Constants.SMALL_IMG,
+                Constants.LARGE_IMG);
     }
 
     private void getProductDetails() {
@@ -113,13 +117,20 @@ public class ProductActivity extends SearchBarActivity {
     private void updateProductDetails(Boolean isDataNew) {
 
         if (isDataNew) {
+
+            // Populate TextViews
+            tvProductName.setText(productName);
+            tvPrice.setText(price);
+            tvRating.setText(rating);
+
             // Load Image from URL to ImageView
-            Picasso.with(activityContext).load(imageURL).into(imgProduct);
+            Picasso.with(activityContext)
+                    .load(imageURL)
+                    .fit()
+                    .centerInside()
+                    .into(imgProduct);
         }
-        // Populate TextViews
-        tvProductName.setText(productName);
-        tvPrice.setText(price);
-        tvRating.setText(rating);
+
     }
 
 }

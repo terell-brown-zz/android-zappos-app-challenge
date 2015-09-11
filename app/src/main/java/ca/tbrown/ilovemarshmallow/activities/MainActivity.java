@@ -35,7 +35,6 @@ public class MainActivity extends BaseActivity {
         searchView = (SearchView) findViewById(R.id.searchView);
         SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
         searchView.setSearchableInfo(searchableInfo);
-        searchView.setSubmitButtonEnabled(true);
         searchView.setIconifiedByDefault(false);
         searchView.requestFocus();
     }

@@ -14,5 +14,8 @@ public class Constants {
     public static final String PRICE = "__PRICE__";
     public static final String SEARCH_RESULTS = "__SEARCH_RESULTS__";
     public static final String IMAGE_URL = "__IMAGE_URL__" ;
+    public static final String SMALL_IMG = "AA160";
+    public static final String MIDSIZE_IMG = "AA250";
+    public static final String LARGE_IMG = "AA500";
     public static String PRODUCT = "__PRODUCT__";
 }

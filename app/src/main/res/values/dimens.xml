@@ -7,4 +7,8 @@
     <dimen name="toolbar_margin">16dp</dimen>
     <dimen name="cardview_margin">16dp</dimen>
     <dimen name="cardview_height">150dp</dimen>
+    <dimen name="cardview_side_padding">8dp</dimen>
+    <dimen name="cardview_vertical_padding">4dp</dimen>
+    <dimen name="cardview_corner_radius">2dp</dimen>
+    <dimen name="cardview_elevation">4dp</dimen>
 </resources>

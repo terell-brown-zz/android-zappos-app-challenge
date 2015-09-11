@@ -17,6 +17,7 @@ import ca.tbrown.ilovemarshmallow.viewholders.ResultViewHolder;
  */
 public class ResultAdapter extends RecyclerView.Adapter<ResultViewHolder> {
 
+    private String searchQuery;
     private Context activityContext;
     private List<Result> results;
 
@@ -24,8 +25,9 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultViewHolder> {
         this.results = results;
     }
 
-    public ResultAdapter(Context activityContext, List<Result> results) {
+    public ResultAdapter(Context activityContext, List<Result> results, String query) {
         this.activityContext = activityContext;
+        searchQuery = query;
         this.results = results;
     }
 
@@ -33,7 +35,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultViewHolder> {
     public ResultViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.viewholder_result, viewGroup, false);
 
-        return new ResultViewHolder(activityContext,v);
+        return new ResultViewHolder(activityContext,v,searchQuery);
     }
 
     @Override

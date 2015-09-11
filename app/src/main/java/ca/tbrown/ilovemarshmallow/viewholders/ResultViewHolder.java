@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ca.tbrown.ilovemarshmallow.Constants;
 import ca.tbrown.ilovemarshmallow.R;
+import ca.tbrown.ilovemarshmallow.Util;
 import ca.tbrown.ilovemarshmallow.activities.ProductActivity;
 import ca.tbrown.ilovemarshmallow.api.Zappos;
 import ca.tbrown.ilovemarshmallow.pojo.Product;
@@ -46,19 +47,25 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
     private String price;
     private String rating;
     private String imgURL;
+    private String searchQuery;
 
 
-    public ResultViewHolder(Context c,View itemView) {
+    public ResultViewHolder(Context c,View itemView, String query) {
         super(itemView);
         activityContext = c;
+        searchQuery = query;
         ButterKnife.bind(this, itemView);
     }
 
     public void bind(Result result) {
 
         // Load Image from URL
-        imgURL = result.getImageUrl();
-        Picasso.with(activityContext).load(imgURL).into(imgProduct);
+        imgURL = Util.resizeImageByURL(result.getImageUrl(),Constants.SMALL_IMG, Constants.MIDSIZE_IMG);
+        Picasso.with(activityContext)
+                .load(imgURL)
+                .fit()
+                .centerInside()
+                .into(imgProduct);
 
         // Store important values
         price = result.getPrice();
@@ -81,6 +88,7 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
         intent.putExtra(Constants.RATING, rating);
         intent.putExtra(Constants.ASIN, asin);
         intent.putExtra(Constants.IMAGE_URL,imgURL);
+        intent.putExtra(Constants.QUERY, searchQuery);
 
         activityContext.startActivity(intent);
     }

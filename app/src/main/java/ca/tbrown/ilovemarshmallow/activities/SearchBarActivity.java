@@ -3,12 +3,14 @@ package ca.tbrown.ilovemarshmallow.activities;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.NavUtils;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import ca.tbrown.ilovemarshmallow.Constants;
 import ca.tbrown.ilovemarshmallow.R;
 
 /**
@@ -58,7 +60,9 @@ public class SearchBarActivity extends BaseActivity {
             case R.id.action_settings:
                 break;
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+                Intent intent = NavUtils.getParentActivityIntent(this);
+                intent.putExtra(Constants.QUERY, searchQuery);
+                NavUtils.navigateUpTo(this,intent);
                 break;
             default:
                 return super.onOptionsItemSelected(item);

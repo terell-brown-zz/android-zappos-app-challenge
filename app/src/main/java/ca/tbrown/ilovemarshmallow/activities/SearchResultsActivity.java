@@ -69,7 +69,7 @@ public class SearchResultsActivity extends SearchBarActivity {
     }
 
     private void populateRecyclerView() {
-        ResultAdapter adapter = new ResultAdapter(activityContext, searchResults);
+        ResultAdapter adapter = new ResultAdapter(activityContext, searchResults, searchQuery);
         rvResults.setAdapter(adapter);
     }
 
@@ -100,11 +100,15 @@ public class SearchResultsActivity extends SearchBarActivity {
     }
 
     private String getSearchQuery() {
-        String query = "";
+        String query = null;
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             query = intent.getStringExtra(SearchManager.QUERY);
         }
+
+        if (query == null)
+            query = intent.getStringExtra(Constants.QUERY);
+
         return query;
     }
 
@@ -115,7 +119,7 @@ public class SearchResultsActivity extends SearchBarActivity {
             public void success(Response apiResponse, retrofit.client.Response response) {
 
                 searchResults = apiResponse.getResults();
-                ResultAdapter adapter = new ResultAdapter(activityContext, apiResponse.getResults());
+                ResultAdapter adapter = new ResultAdapter(activityContext, apiResponse.getResults(), searchQuery);
                 rvResults.setAdapter(adapter);
             }
 
