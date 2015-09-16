@@ -7,8 +7,10 @@ public class Util {
 
     public static String resizeImageByURL(String url, String oldSize, String desiredSize) {
         // Changes segment of Image URL specifying size from oldSize new desiredSize
-
-        return url.replace(oldSize, desiredSize);
+        if (url.contains(oldSize)) {
+            return url.replace(oldSize, desiredSize);
+        }
+        return url;
 
     }
 }

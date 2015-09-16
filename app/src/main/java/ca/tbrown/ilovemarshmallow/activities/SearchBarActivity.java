@@ -47,7 +47,7 @@ public class SearchBarActivity extends BaseActivity {
         searchbox = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchbox.setSearchableInfo(searchableInfo);
         searchbox.setIconifiedByDefault(false);
-        searchbox.requestFocus();
+        //searchbox.requestFocus();
         searchbox.setQuery(searchQuery, false);
     }
 

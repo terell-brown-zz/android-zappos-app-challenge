@@ -3,12 +3,15 @@ package ca.tbrown.ilovemarshmallow.activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +19,7 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import ca.tbrown.ilovemarshmallow.Constants;
 import ca.tbrown.ilovemarshmallow.R;
 import ca.tbrown.ilovemarshmallow.Util;
@@ -36,8 +40,8 @@ public class ProductActivity extends SearchBarActivity {
     @Bind(R.id.tvProductName) TextView tvProductName;
     @Bind(R.id.tvDescription) TextView tvDescription;
     @Bind(R.id.tvPrice) TextView tvPrice;
-    @Bind(R.id.tvRating) TextView tvRating;
-
+    @Bind(R.id.productRatingBar) RatingBar productRatingBar;
+    @Bind(R.id.fab) FloatingActionButton fab;
 
     // Business Logic
     private String asin;
@@ -53,7 +57,6 @@ public class ProductActivity extends SearchBarActivity {
         setContentView(R.layout.activity_product);
         ButterKnife.bind(this);
         setupToolbar();
-
 
         if (savedInstanceState != null) {
             restoreProductData(savedInstanceState);
@@ -124,7 +127,7 @@ public class ProductActivity extends SearchBarActivity {
             tvProductName.setText(productName);
             tvDescription.setText(Html.fromHtml(description));
             tvPrice.setText(price);
-            tvRating.setText(rating);
+            productRatingBar.setRating(Float.parseFloat(rating));
 
             // Load Image from URL to ImageView
             Picasso.with(activityContext)
@@ -136,4 +139,25 @@ public class ProductActivity extends SearchBarActivity {
 
     }
 
+    @OnClick(R.id.fab)
+    public void shareProduct() {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, generateShareMessage());
+        sendIntent.putExtra(Constants.ASIN,asin);
+        sendIntent.putExtra(Constants.PRICE,price);
+        sendIntent.putExtra(Constants.RATING,rating);
+        sendIntent.putExtra(Constants.IMAGE_URL,imageURL);
+        sendIntent.setData(Uri.parse("market://details?id=com.example.android"));
+        sendIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sendIntent, null));
+    }
+
+    private String generateShareMessage() {
+        StringBuilder message = new StringBuilder()
+                .append(Constants.SHARE_MESSAGE + "\n")
+                .append(productName + "\n")
+                .append(Constants.ASIN_ENDPOINT + asin);
+        return message.toString();
+    }
 }

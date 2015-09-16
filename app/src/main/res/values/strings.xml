@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">ILoveMarshmallow</string>
-
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_base">BaseActivity</string>
@@ -13,4 +12,5 @@
     <string name="sample_text_tvPrice">$99.99</string>
     <string name="sample_text_tvRating">10</string>
     <string name="title_activity_product">ProductActivity</string>
+    <string name="sample_text_tvDescription">With roots in first generation scouting bags, the Survey from Herschel Supply Co. earns a few merit badges for clean and classic style. Spacious main compartment can hold all the daily essentials for day on or off the trail. Inside sleeve pocket built within the cotton-poly fabric lining. Custom metal buckle details with convenient magnetic snap closures. Herschel logo detail in bottom corner of bag. Leather diamond accent on top flap. Padded and adjustable straps for a comfortable fit. Shell: 100 polyester. Lining: 100 nylon.</string>
 </resources>
