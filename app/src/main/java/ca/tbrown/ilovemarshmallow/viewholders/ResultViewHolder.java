@@ -2,7 +2,6 @@ package ca.tbrown.ilovemarshmallow.viewholders;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,8 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,11 +18,7 @@ import ca.tbrown.ilovemarshmallow.R;
 import ca.tbrown.ilovemarshmallow.Util;
 import ca.tbrown.ilovemarshmallow.activities.ProductActivity;
 import ca.tbrown.ilovemarshmallow.api.Zappos;
-import ca.tbrown.ilovemarshmallow.pojo.Product;
 import ca.tbrown.ilovemarshmallow.pojo.Result;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 /**
  * Created by tmast_000 on 9/8/2015.

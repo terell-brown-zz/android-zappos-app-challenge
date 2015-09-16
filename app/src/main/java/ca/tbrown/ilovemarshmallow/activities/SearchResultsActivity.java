@@ -1,47 +1,28 @@
 package ca.tbrown.ilovemarshmallow.activities;
 
 import android.app.SearchManager;
-import android.app.SearchableInfo;
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.List;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import ca.tbrown.ilovemarshmallow.Constants;
 import ca.tbrown.ilovemarshmallow.R;
 import ca.tbrown.ilovemarshmallow.adapters.ResultAdapter;
 import ca.tbrown.ilovemarshmallow.api.Zappos;
-import ca.tbrown.ilovemarshmallow.api.ZapposAPI;
 import ca.tbrown.ilovemarshmallow.pojo.Response;
 import ca.tbrown.ilovemarshmallow.pojo.Result;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 
 public class SearchResultsActivity extends SearchBarActivity {
 
     // UI
     private RecyclerView rvResults;
-    private LinearLayout activityLayout;
     private ArrayList<Result> searchResults;
 
 

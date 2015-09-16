@@ -17,5 +17,6 @@ public class Constants {
     public static final String SMALL_IMG = "AA160";
     public static final String MIDSIZE_IMG = "AA250";
     public static final String LARGE_IMG = "AA500";
+    public static final String DESCRIPTION = "__DESCRIPTION__";
     public static String PRODUCT = "__PRODUCT__";
 }

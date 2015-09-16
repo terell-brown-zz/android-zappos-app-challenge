@@ -3,7 +3,6 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="android:background">@color/white</item>
         <!-- Customize your theme here. -->
     </style>
 
@@ -15,7 +14,4 @@
         <item name="cardCornerRadius">@dimen/cardview_corner_radius</item>
         <item name="cardElevation">@dimen/cardview_elevation</item>
     </style>
-
-
-    <color name="white">#FFFFFF</color>
 </resources>

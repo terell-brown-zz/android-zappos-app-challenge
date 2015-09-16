@@ -2,7 +2,7 @@ package ca.tbrown.ilovemarshmallow.api;
 
 
 import ca.tbrown.ilovemarshmallow.Constants;
-import retrofit.RestAdapter;
+import ca.tbrown.ilovemarshmallow.api.ZapposAPI;import retrofit.RestAdapter;
 
 public class Zappos {
 

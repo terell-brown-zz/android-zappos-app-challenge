@@ -2,17 +2,13 @@ package ca.tbrown.ilovemarshmallow.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,9 +31,10 @@ public class ProductActivity extends SearchBarActivity {
     private Toolbar toolbar;
     private SearchView searchbox;
 
-    @Bind(R.id.viewContainer) LinearLayout viewContainer;
+    //@Bind(R.id.viewContainer) LinearLayout viewContainer;
     @Bind(R.id.imgProduct) ImageView imgProduct;
     @Bind(R.id.tvProductName) TextView tvProductName;
+    @Bind(R.id.tvDescription) TextView tvDescription;
     @Bind(R.id.tvPrice) TextView tvPrice;
     @Bind(R.id.tvRating) TextView tvRating;
 
@@ -48,6 +45,7 @@ public class ProductActivity extends SearchBarActivity {
     private String imageURL;
     private String price;
     private String rating;
+    private String description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +53,7 @@ public class ProductActivity extends SearchBarActivity {
         setContentView(R.layout.activity_product);
         ButterKnife.bind(this);
         setupToolbar();
+
 
         if (savedInstanceState != null) {
             restoreProductData(savedInstanceState);
@@ -70,6 +69,7 @@ public class ProductActivity extends SearchBarActivity {
         asin = savedInstanceState.getString(Constants.ASIN);
         price = savedInstanceState.getString(Constants.PRICE);
         rating = savedInstanceState.getString(Constants.RATING);
+        description = savedInstanceState.getString(Constants.DESCRIPTION);
         Bitmap bitmap = (Bitmap) savedInstanceState.getParcelable(Constants.IMAGE);
         imgProduct.setImageBitmap(bitmap);
     }
@@ -89,12 +89,13 @@ public class ProductActivity extends SearchBarActivity {
             @Override
             public void success(Product productDetails, Response response) {
                 productName = productDetails.getProductName();
+                description = productDetails.getDescription();
                 updateProductDetails(true);
             }
 
             @Override
             public void failure(RetrofitError error) {
-                viewContainer.setVisibility(View.INVISIBLE);
+                //viewContainer.setVisibility(View.INVISIBLE);
                 Log.e("NONe", error.getMessage());
                 Toast.makeText(activityContext, error.getMessage(), Toast.LENGTH_LONG).show();
                 new TextView(activityContext).setText("No results found.");
@@ -111,6 +112,7 @@ public class ProductActivity extends SearchBarActivity {
         outState.putString(Constants.ASIN, asin);
         outState.putString(Constants.PRICE, price);
         outState.putString(Constants.RATING, rating);
+        outState.putString(Constants.DESCRIPTION, description);
         super.onSaveInstanceState(outState);
     }
 
@@ -120,6 +122,7 @@ public class ProductActivity extends SearchBarActivity {
 
             // Populate TextViews
             tvProductName.setText(productName);
+            tvDescription.setText(Html.fromHtml(description));
             tvPrice.setText(price);
             tvRating.setText(rating);
 
