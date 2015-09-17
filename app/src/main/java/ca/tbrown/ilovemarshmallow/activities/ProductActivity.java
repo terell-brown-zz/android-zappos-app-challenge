@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.net.URI;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -50,6 +52,7 @@ public class ProductActivity extends SearchBarActivity {
     private String price;
     private String rating;
     private String description;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +60,26 @@ public class ProductActivity extends SearchBarActivity {
         setContentView(R.layout.activity_product);
         ButterKnife.bind(this);
         setupToolbar();
+        intent = getIntent();
 
-        if (savedInstanceState != null) {
+        if (intent.getAction() == Intent.ACTION_VIEW) {
+            getUriData();
+            getProductDetails();
+        } else if  (savedInstanceState != null) {
             restoreProductData(savedInstanceState);
             updateProductDetails(false);
         } else {
-            handleIntent(getIntent());
+            handleIntent(intent);
             getProductDetails();
         }
+    }
+
+    private void getUriData() {
+        Uri data = intent.getData();
+        asin = data.getQueryParameter(Constants.PARSE_QUERY_ASIN);
+        price = data.getQueryParameter(Constants.PARSE_QUERY_PRICE);
+        rating = data.getQueryParameter(Constants.PARSE_QUERY_RATING);
+        imageURL = "h" + data.getQueryParameter(Constants.PARSE_IMG_URL);
     }
 
     private void restoreProductData(Bundle savedInstanceState) {
@@ -82,9 +97,10 @@ public class ProductActivity extends SearchBarActivity {
         asin = intent.getStringExtra(Constants.ASIN);
         price = intent.getStringExtra(Constants.PRICE);
         rating = intent.getStringExtra(Constants.RATING);
-        imageURL = Util.resizeImageByURL(intent.getStringExtra(Constants.IMAGE_URL),
-                Constants.SMALL_IMG,
-                Constants.LARGE_IMG);
+        imageURL = Util.resizeImageByURL(intent.getStringExtra(
+                        Constants.IMAGE_URL),
+                        Constants.SMALL_IMG,
+                        Constants.LARGE_IMG);
     }
 
     private void getProductDetails() {
@@ -98,7 +114,6 @@ public class ProductActivity extends SearchBarActivity {
 
             @Override
             public void failure(RetrofitError error) {
-                //viewContainer.setVisibility(View.INVISIBLE);
                 Log.e("NONe", error.getMessage());
                 Toast.makeText(activityContext, error.getMessage(), Toast.LENGTH_LONG).show();
                 new TextView(activityContext).setText("No results found.");
@@ -136,28 +151,40 @@ public class ProductActivity extends SearchBarActivity {
                     .centerInside()
                     .into(imgProduct);
         }
-
     }
 
     @OnClick(R.id.fab)
     public void shareProduct() {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, generateShareMessage());
+        String uri = generateURI().toString();
+        sendIntent.putExtra(Intent.EXTRA_TEXT, generateShareMessage(uri));
         sendIntent.putExtra(Constants.ASIN,asin);
         sendIntent.putExtra(Constants.PRICE,price);
         sendIntent.putExtra(Constants.RATING,rating);
-        sendIntent.putExtra(Constants.IMAGE_URL,imageURL);
-        sendIntent.setData(Uri.parse("market://details?id=com.example.android"));
+        sendIntent.putExtra(Constants.URI, Constants.ASIN_ENDPOINT + asin);
+        sendIntent.setData(Uri.parse(uri));
         sendIntent.setType("text/plain");
         startActivity(Intent.createChooser(sendIntent, null));
     }
 
-    private String generateShareMessage() {
+    private String generateShareMessage(String uri) {
         StringBuilder message = new StringBuilder()
                 .append(Constants.SHARE_MESSAGE + "\n")
                 .append(productName + "\n")
-                .append(Constants.ASIN_ENDPOINT + asin);
+                .append(uri);
         return message.toString();
+    }
+
+    private String generateURI() {
+        StringBuilder uri = new StringBuilder()
+                .append(Constants.BASE_URL)
+                .append(Constants.SEARCH_URL)
+                .append(Constants.ASIN_SEARCH + asin + "&")
+                .append(Constants.PRICE_SEARCH + Constants.DOLLAR_SIGN + price.substring(1) + "&")
+                .append(Constants.RATING_SEARCH + rating + "&")
+                .append(Constants.IMG_SEARCH + imageURL.substring(1));
+
+        return uri.toString();
     }
 }

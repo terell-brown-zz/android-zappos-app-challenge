@@ -55,8 +55,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ca.tbrown.ilovemarshmallow.activities.SearchResultsActivity" />
             <intent-filter>
-                <data android:scheme="https"/>
-                <data android:host="zappos.amazon.com" />
+                <data android:scheme="https"
+                    android:host = "zappos.amazon.com"/>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <category android:name="android.intent.category.DEFAULT"/>
