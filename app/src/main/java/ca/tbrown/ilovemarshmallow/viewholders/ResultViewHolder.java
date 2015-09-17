@@ -6,6 +6,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -33,7 +34,7 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.ivResult) ImageView imgProduct;
     @Bind(R.id.tvProductName) TextView tvProductName;
     @Bind(R.id.tvPrice) TextView tvPrice;
-    @Bind(R.id.tvRating) TextView tvRating;
+    @Bind(R.id.productRatingBar)RatingBar productRatingBar;
 
     // Business Logic
     private String asin;
@@ -69,7 +70,7 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
         // Populate Views
         tvPrice.setText(price);
         tvProductName.setText(result.getProductName());
-        tvRating.setText(rating);
+        productRatingBar.setRating(Float.parseFloat(rating));
     }
 
 

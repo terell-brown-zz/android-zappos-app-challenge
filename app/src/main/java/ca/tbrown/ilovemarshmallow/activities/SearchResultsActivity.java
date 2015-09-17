@@ -83,7 +83,6 @@ public class SearchResultsActivity extends SearchBarActivity {
     public void setupSearchBox(Menu menu) {
         super.setupSearchBox(menu);
         searchbox.requestFocus();
-
     }
 
     private String getSearchQuery() {

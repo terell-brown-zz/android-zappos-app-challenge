@@ -1,5 +1,8 @@
 package ca.tbrown.ilovemarshmallow.activities;
 
+import android.app.SearchManager;
+import android.app.SearchableInfo;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -10,6 +13,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
+import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -35,7 +39,7 @@ public class ProductActivity extends SearchBarActivity {
 
     // UI
     private Toolbar toolbar;
-    private SearchView searchbox;
+    //private SearchView searchbox;
 
     //@Bind(R.id.viewContainer) LinearLayout viewContainer;
     @Bind(R.id.imgProduct) ImageView imgProduct;
@@ -84,6 +88,7 @@ public class ProductActivity extends SearchBarActivity {
 
     private void restoreProductData(Bundle savedInstanceState) {
         productName = savedInstanceState.getString(Constants.PRODUCT);
+        searchQuery = savedInstanceState.getString(Constants.QUERY);
         asin = savedInstanceState.getString(Constants.ASIN);
         price = savedInstanceState.getString(Constants.PRICE);
         rating = savedInstanceState.getString(Constants.RATING);
@@ -95,6 +100,7 @@ public class ProductActivity extends SearchBarActivity {
     private void handleIntent(Intent intent) {
         searchQuery = intent.getStringExtra(Constants.QUERY);
         asin = intent.getStringExtra(Constants.ASIN);
+        Log.e("ASIN", asin);
         price = intent.getStringExtra(Constants.PRICE);
         rating = intent.getStringExtra(Constants.RATING);
         imageURL = Util.resizeImageByURL(intent.getStringExtra(
@@ -126,6 +132,7 @@ public class ProductActivity extends SearchBarActivity {
         BitmapDrawable bd = (BitmapDrawable) imgProduct.getDrawable();
         Bitmap image = bd.getBitmap();
         outState.putParcelable(Constants.IMAGE, image);
+        outState.putString(Constants.QUERY, searchQuery);
         outState.putString(Constants.PRODUCT, productName);
         outState.putString(Constants.ASIN, asin);
         outState.putString(Constants.PRICE, price);
@@ -136,14 +143,14 @@ public class ProductActivity extends SearchBarActivity {
 
     private void updateProductDetails(Boolean isDataNew) {
 
-        if (isDataNew) {
-
             // Populate TextViews
             tvProductName.setText(productName);
             tvDescription.setText(Html.fromHtml(description));
             tvPrice.setText(price);
             productRatingBar.setRating(Float.parseFloat(rating));
 
+
+        if (isDataNew) {
             // Load Image from URL to ImageView
             Picasso.with(activityContext)
                     .load(imageURL)
