@@ -34,4 +34,6 @@ public class Constants {
     public static final String DOLLAR_SIGN = "%24";
     public static final String PAGE = "__PAGE__";
     public static final String IS_BACK_NAV = "___BACK__";
+    public static final String PORTRAIT_SIZE = "AA300";
+    public static final String LANDSCAPE_SIZE = "AA400";
 }
