@@ -30,11 +30,18 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
     private Context activityContext;
 
     // Views
-    @Bind(R.id.cvResult) CardView cvResult;
-    @Bind(R.id.ivResult) ImageView imgProduct;
-    @Bind(R.id.tvProductName) TextView tvProductName;
-    @Bind(R.id.tvPrice) TextView tvPrice;
-    @Bind(R.id.productRatingBar)RatingBar productRatingBar;
+    @Bind(R.id.cvResult)
+    CardView cvResult;
+    @Bind(R.id.ivResult)
+    ImageView imgProduct;
+    @Bind(R.id.tvProductName)
+    TextView tvProductName;
+    @Bind(R.id.tvPrice)
+    TextView tvPrice;
+    @Bind(R.id.tvRating)
+    TextView tvRating;
+    @Bind(R.id.productRatingBar)
+    RatingBar productRatingBar;
 
     // Business Logic
     private String asin;
@@ -44,7 +51,7 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
     private String searchQuery;
 
 
-    public ResultViewHolder(Context c,View itemView, String query) {
+    public ResultViewHolder(Context c, View itemView, String query) {
         super(itemView);
         activityContext = c;
         searchQuery = query;
@@ -54,7 +61,7 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
     public void bind(Result result) {
 
         // Load Image from URL
-        imgURL = Util.resizeImageByURL(result.getImageUrl(),Constants.SMALL_IMG, Constants.MIDSIZE_IMG);
+        imgURL = Util.resizeImageByURL(result.getImageUrl(), Constants.SMALL_IMG, Constants.MIDSIZE_IMG);
         Picasso.with(activityContext)
                 .load(imgURL)
                 .fit()
@@ -70,7 +77,11 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
         // Populate Views
         tvPrice.setText(price);
         tvProductName.setText(result.getProductName());
-        productRatingBar.setRating(Float.parseFloat(rating));
+        if (rating.equals("0.0")) {
+            setRatingNotFound();
+        } else {
+            productRatingBar.setRating(Float.parseFloat(rating));
+        }
     }
 
 
@@ -81,9 +92,14 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
         intent.putExtra(Constants.PRICE, price);
         intent.putExtra(Constants.RATING, rating);
         intent.putExtra(Constants.ASIN, asin);
-        intent.putExtra(Constants.IMAGE_URL,imgURL);
+        intent.putExtra(Constants.IMAGE_URL, imgURL);
         intent.putExtra(Constants.QUERY, searchQuery);
 
         activityContext.startActivity(intent);
+    }
+
+    private void setRatingNotFound() {
+        tvRating.setVisibility(View.VISIBLE);
+        productRatingBar.setVisibility(View.GONE);
     }
 }

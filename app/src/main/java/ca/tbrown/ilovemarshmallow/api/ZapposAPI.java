@@ -16,6 +16,13 @@ public interface ZapposAPI {
             Callback<Response> responseCallback
     );
 
+    @GET("/mobileapi/v1/search")
+    void searchProductsByPage(
+            @Query("term") String query,
+            @Query("page") String page,
+            Callback<Response> responseCallback
+    );
+
     @GET("/mobileapi/v1/product/asin/{asin}")
     void searchByAsin(
             @Path("asin") String asin,

@@ -8,12 +8,14 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -46,6 +48,8 @@ public class ProductActivity extends SearchBarActivity {
     @Bind(R.id.tvProductName) TextView tvProductName;
     @Bind(R.id.tvDescription) TextView tvDescription;
     @Bind(R.id.tvPrice) TextView tvPrice;
+
+    @Bind(R.id.tvRating) @Nullable TextView tvRating;
     @Bind(R.id.productRatingBar) RatingBar productRatingBar;
     @Bind(R.id.fab) FloatingActionButton fab;
 
@@ -57,6 +61,7 @@ public class ProductActivity extends SearchBarActivity {
     private String rating;
     private String description;
     private Intent intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,7 +152,12 @@ public class ProductActivity extends SearchBarActivity {
             tvProductName.setText(productName);
             tvDescription.setText(Html.fromHtml(description));
             tvPrice.setText(price);
+
+        if (rating.equals("0.0")) {
+            setRatingNotFound();
+        } else {
             productRatingBar.setRating(Float.parseFloat(rating));
+        }
 
 
         if (isDataNew) {
@@ -193,5 +203,10 @@ public class ProductActivity extends SearchBarActivity {
                 .append(Constants.IMG_SEARCH + imageURL.substring(1));
 
         return uri.toString();
+    }
+
+    public void setRatingNotFound() {
+        tvRating.setVisibility(View.VISIBLE);
+        productRatingBar.setVisibility(View.INVISIBLE);
     }
 }

@@ -32,4 +32,6 @@ public class Constants {
     public static final String PARSE_IMG_URL = "img";
     public static final String PARSE_QUERY_ASIN = "asin";
     public static final String DOLLAR_SIGN = "%24";
+    public static final String PAGE = "__PAGE__";
+    public static final String IS_BACK_NAV = "___BACK__";
 }

@@ -43,13 +43,12 @@ public class SearchBarActivity extends BaseActivity {
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
-
         searchbox = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchbox.setSearchableInfo(searchableInfo);
         searchbox.setIconifiedByDefault(false);
-        //searchbox.requestFocus();
         searchbox.setQuery(searchQuery, false);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -62,6 +61,7 @@ public class SearchBarActivity extends BaseActivity {
             case android.R.id.home:
                 Intent intent = NavUtils.getParentActivityIntent(this);
                 intent.putExtra(Constants.QUERY, searchQuery);
+                intent.putExtra(Constants.IS_BACK_NAV,true);
                 NavUtils.navigateUpTo(this,intent);
                 break;
             default:

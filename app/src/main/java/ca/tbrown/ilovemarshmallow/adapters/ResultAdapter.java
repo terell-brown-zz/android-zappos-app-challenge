@@ -29,6 +29,8 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultViewHolder> {
         this.activityContext = activityContext;
         searchQuery = query;
         this.results = results;
+        notifyItemRangeChanged(0, results.size());
+
     }
 
     @Override

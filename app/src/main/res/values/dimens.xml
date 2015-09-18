@@ -17,4 +17,5 @@
     <dimen name="product_name_font_size">22sp</dimen>
     <dimen name="product_price_font_size">18sp</dimen>
     <dimen name="fab_marginRight">16dp</dimen>
+    <dimen name="ratings_not_found_font_size">10sp</dimen>
 </resources>
