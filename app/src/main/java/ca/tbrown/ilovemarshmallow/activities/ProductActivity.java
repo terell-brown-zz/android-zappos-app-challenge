@@ -40,15 +40,18 @@ import retrofit.client.Response;
 public class ProductActivity extends SearchBarActivity {
 
     // UI
+    private Toolbar toolbar;
+    //private SearchView searchbox;
 
+    //@Bind(R.id.viewContainer) LinearLayout viewContainer;
     @Bind(R.id.imgProduct) ImageView imgProduct;
     @Bind(R.id.tvProductName) TextView tvProductName;
     @Bind(R.id.tvDescription) TextView tvDescription;
     @Bind(R.id.tvPrice) TextView tvPrice;
+
     @Bind(R.id.tvRating) @Nullable TextView tvRating;
     @Bind(R.id.productRatingBar) RatingBar productRatingBar;
     @Bind(R.id.fab) FloatingActionButton fab;
-    private boolean isPortraitMode;
 
     // Business Logic
     private String asin;
@@ -60,15 +63,14 @@ public class ProductActivity extends SearchBarActivity {
     private Intent intent;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
         ButterKnife.bind(this);
-        isPortraitMode = isPortraitMode();
         setupToolbar();
         intent = getIntent();
+
         if (intent.getAction() == Intent.ACTION_VIEW) {
             getUriData();
             getProductDetails();
@@ -78,14 +80,6 @@ public class ProductActivity extends SearchBarActivity {
         } else {
             handleIntent(intent);
             getProductDetails();
-        }
-    }
-
-    private boolean isPortraitMode() {
-        if (getResources().getConfiguration().orientation == 1) {
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -104,9 +98,8 @@ public class ProductActivity extends SearchBarActivity {
         price = savedInstanceState.getString(Constants.PRICE);
         rating = savedInstanceState.getString(Constants.RATING);
         description = savedInstanceState.getString(Constants.DESCRIPTION);
-        imageURL = savedInstanceState.getString(Constants.IMAGE);
-        //Bitmap bitmap = (Bitmap) savedInstanceState.getParcelable(Constants.IMAGE);
-        //imgProduct.setImageBitmap(bitmap);
+        Bitmap bitmap = (Bitmap) savedInstanceState.getParcelable(Constants.IMAGE);
+        imgProduct.setImageBitmap(bitmap);
     }
 
     private void handleIntent(Intent intent) {
@@ -115,18 +108,10 @@ public class ProductActivity extends SearchBarActivity {
         Log.e("ASIN", asin);
         price = intent.getStringExtra(Constants.PRICE);
         rating = intent.getStringExtra(Constants.RATING);
-
-        String newImageSize;
-        if (isPortraitMode()) {
-            newImageSize = Constants.PORTRAIT_SIZE;
-        } else {
-            newImageSize = Constants.LANDSCAPE_SIZE;
-        }
-
         imageURL = Util.resizeImageByURL(intent.getStringExtra(
                         Constants.IMAGE_URL),
-                        Constants.MIDSIZE_IMG,
-                        newImageSize);
+                        Constants.SMALL_IMG,
+                        Constants.LARGE_IMG);
     }
 
     private void getProductDetails() {
@@ -151,7 +136,7 @@ public class ProductActivity extends SearchBarActivity {
     protected void onSaveInstanceState(Bundle outState) {
         BitmapDrawable bd = (BitmapDrawable) imgProduct.getDrawable();
         Bitmap image = bd.getBitmap();
-        outState.putString(Constants.IMAGE, imageURL);
+        outState.putParcelable(Constants.IMAGE, image);
         outState.putString(Constants.QUERY, searchQuery);
         outState.putString(Constants.PRODUCT, productName);
         outState.putString(Constants.ASIN, asin);
@@ -175,14 +160,14 @@ public class ProductActivity extends SearchBarActivity {
         }
 
 
-        //if (isDataNew) {
+        if (isDataNew) {
             // Load Image from URL to ImageView
             Picasso.with(activityContext)
                     .load(imageURL)
-                    //.fit()
-                    //.centerInside()
+                    .fit()
+                    .centerInside()
                     .into(imgProduct);
-        //}
+        }
     }
 
     @OnClick(R.id.fab)
@@ -191,9 +176,9 @@ public class ProductActivity extends SearchBarActivity {
         sendIntent.setAction(Intent.ACTION_SEND);
         String uri = generateURI().toString();
         sendIntent.putExtra(Intent.EXTRA_TEXT, generateShareMessage(uri));
-        sendIntent.putExtra(Constants.ASIN, asin);
-        sendIntent.putExtra(Constants.PRICE, price);
-        sendIntent.putExtra(Constants.RATING, rating);
+        sendIntent.putExtra(Constants.ASIN,asin);
+        sendIntent.putExtra(Constants.PRICE,price);
+        sendIntent.putExtra(Constants.RATING,rating);
         sendIntent.putExtra(Constants.URI, Constants.ASIN_ENDPOINT + asin);
         sendIntent.setData(Uri.parse(uri));
         sendIntent.setType("text/plain");
