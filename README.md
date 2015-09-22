@@ -15,9 +15,9 @@ An app built as part of the 2015 Zappos Internship Challenge
 <img src=https://cloud.githubusercontent.com/assets/8221118/10032331/71534d50-6150-11e5-83b7-f3826a39867c.png width ="250"/>
 
 #### Libraries Used
-- Material Desgin Components: Android Design Support Library
-- View Binding: ButterKnife
+- **Material Desgin Components:** Android Design Support Library
+- **View Binding:** ButterKnife
 - CardView
 - RecyclerView
-- API Request and Response handling: Retrofit
-- Image Downloading and Sizing: Picasso
+- **API Request and Response handling:** Retrofit
+- **Image Downloading and Sizing:** Picasso
