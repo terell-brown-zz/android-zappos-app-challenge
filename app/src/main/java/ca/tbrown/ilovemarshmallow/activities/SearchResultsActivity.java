@@ -41,11 +41,13 @@ public class SearchResultsActivity extends SearchBarActivity {
         setupToolbar();
 
         if (savedInstanceState != null) {
+            // activity launched via configutation change
             restoreSearchData(savedInstanceState);
             setupRecyclerView();
             populateRecyclerView();
 
         } else {
+            // activity launched via parent or back nav
             currentPage = "1";
             setupRecyclerView();
             searchForProducts(searchQuery);
@@ -65,6 +67,7 @@ public class SearchResultsActivity extends SearchBarActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        // save key info when activity destroyed
         outState.putString(Constants.QUERY, searchQuery);
         outState.putParcelableArrayList(Constants.SEARCH_RESULTS, searchResults);
         outState.putString(Constants.PAGE, currentPage);
@@ -72,6 +75,7 @@ public class SearchResultsActivity extends SearchBarActivity {
     }
 
     private void setupRecyclerView() {
+        // setup but don't populate recyclerview
         rvResults = (RecyclerView) findViewById(R.id.rvResults);
         rvResults.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(activityContext);
@@ -89,13 +93,13 @@ public class SearchResultsActivity extends SearchBarActivity {
         Necessary for activities with the launchMode="singleTop" attribute set in Manifest File.
         When there is a need to launch another instance of this activity, the current instance
         will be recycled and the onNewIntent method will be called to handle the intent used
-        to launch the 'new instance
+        to launch the 'new' instance
          */
         setIntent(intent);
         searchQuery = getSearchQuery();
         if (intent.getBooleanExtra(Constants.IS_BACK_NAV, false) == true) {
             // when activity accessed via back nav
-            Zappos.getAPI().searchProductsByPage(searchQuery, currentPage, new CallbackResponse2());
+            Zappos.getAPI().searchProductsByPage(searchQuery, currentPage, new LoadMoreResponsesCallback());
 
         } else {
             currentPage = "1";
@@ -112,12 +116,14 @@ public class SearchResultsActivity extends SearchBarActivity {
     private String getSearchQuery() {
         String query = null;
         Intent intent = getIntent();
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+        if (intent.getAction().equals(Intent.ACTION_SEARCH)) {
+            // if activity launched do to execution of search bar
             query = intent.getStringExtra(SearchManager.QUERY);
         }
 
-        if (query == null)
+        if (query == null) {
             query = intent.getStringExtra(Constants.QUERY);
+        }
 
         return query;
     }
@@ -128,7 +134,7 @@ public class SearchResultsActivity extends SearchBarActivity {
 
 
     private class EndlessScrollListener extends EndlessRecyclerViewOnScrollListener {
-
+        // Extension of ScrollListener that notifies when user is at the end of the recyclerview
         public EndlessScrollListener(LinearLayoutManager linearLayoutManager) {
             super(linearLayoutManager);
         }
@@ -136,7 +142,7 @@ public class SearchResultsActivity extends SearchBarActivity {
         @Override
         public void onLoadMore(final int current_page) {
             currentPage = Integer.toString(current_page);
-            Zappos.getAPI().searchProductsByPage(searchQuery,currentPage, new CallbackResponse2());
+            Zappos.getAPI().searchProductsByPage(searchQuery,currentPage, new LoadMoreResponsesCallback());
         }
     }
 
@@ -161,7 +167,7 @@ public class SearchResultsActivity extends SearchBarActivity {
         }
     }
 
-    class CallbackResponse2 implements Callback<Response> {
+    class LoadMoreResponsesCallback implements Callback<Response> {
 
         @Override
         public void success(Response response, retrofit.client.Response fullResponse) {

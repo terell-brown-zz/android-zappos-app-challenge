@@ -29,9 +29,8 @@ public class ResultViewHolder extends RecyclerView.ViewHolder {
     // Backend Components
     private Context activityContext;
 
-    // Views
-    @Bind(R.id.cvResult)
-    CardView cvResult;
+    // UI
+    @Bind(R.id.cvResult) CardView cvResult;
     @Bind(R.id.ivResult)
     ImageView imgProduct;
     @Bind(R.id.tvProductName)

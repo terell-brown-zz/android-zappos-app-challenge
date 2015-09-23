@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 
 import ca.tbrown.ilovemarshmallow.R;
-    
+
 public class MainActivity extends BaseActivity {
 
     // UI
@@ -29,5 +29,4 @@ public class MainActivity extends BaseActivity {
         searchView.setIconifiedByDefault(false);
         searchView.requestFocus();
     }
-
 }

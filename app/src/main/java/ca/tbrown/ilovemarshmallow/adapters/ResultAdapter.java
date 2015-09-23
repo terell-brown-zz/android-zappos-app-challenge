@@ -12,9 +12,7 @@ import ca.tbrown.ilovemarshmallow.R;
 import ca.tbrown.ilovemarshmallow.pojo.Result;
 import ca.tbrown.ilovemarshmallow.viewholders.ResultViewHolder;
 
-/**
- * Created by tmast_000 on 9/9/2015.
- */
+
 public class ResultAdapter extends RecyclerView.Adapter<ResultViewHolder> {
 
     private String searchQuery;
@@ -26,8 +24,8 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultViewHolder> {
     }
 
     public ResultAdapter(Context activityContext, List<Result> results, String query) {
-        this.activityContext = activityContext;
         searchQuery = query;
+        this.activityContext = activityContext;
         this.results = results;
         notifyItemRangeChanged(0, results.size());
 

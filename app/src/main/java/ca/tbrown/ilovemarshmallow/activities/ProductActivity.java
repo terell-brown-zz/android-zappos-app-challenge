@@ -1,20 +1,15 @@
 package ca.tbrown.ilovemarshmallow.activities;
 
-import android.app.SearchManager;
-import android.app.SearchableInfo;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.SearchView;
+
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -23,7 +18,6 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import java.net.URI;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,17 +33,14 @@ import retrofit.client.Response;
 
 public class ProductActivity extends SearchBarActivity {
 
+    private final String TAG = "Zappos";
     // UI
     private Toolbar toolbar;
-    //private SearchView searchbox;
-
-    //@Bind(R.id.viewContainer) LinearLayout viewContainer;
     @Bind(R.id.imgProduct) ImageView imgProduct;
     @Bind(R.id.tvProductName) TextView tvProductName;
     @Bind(R.id.tvDescription) TextView tvDescription;
     @Bind(R.id.tvPrice) TextView tvPrice;
-
-    @Bind(R.id.tvRating) @Nullable TextView tvRating;
+    @Bind(R.id.tvRating) TextView tvRating;
     @Bind(R.id.productRatingBar) RatingBar productRatingBar;
     @Bind(R.id.fab) FloatingActionButton fab;
 
@@ -69,35 +60,62 @@ public class ProductActivity extends SearchBarActivity {
         setContentView(R.layout.activity_product);
         ButterKnife.bind(this);
         setupToolbar();
-        intent = getIntent();
 
+        intent = getIntent();
         if (intent.getAction() == Intent.ACTION_VIEW) {
+            // activity opened from shared URL
             getUriData();
             getProductDetails();
         } else if  (savedInstanceState != null) {
+            // activity launched via configuration change
             restoreProductData(savedInstanceState);
             updateProductDetails(false);
         } else {
+            // activity launched from parent
             handleIntent(intent);
             getProductDetails();
         }
     }
 
     private void getUriData() {
+        // extracts key info from opened URL
         Uri data = intent.getData();
         asin = data.getQueryParameter(Constants.PARSE_QUERY_ASIN);
         price = data.getQueryParameter(Constants.PARSE_QUERY_PRICE);
         rating = data.getQueryParameter(Constants.PARSE_QUERY_RATING);
         imageURL = "h" + data.getQueryParameter(Constants.PARSE_IMG_URL);
+        // "h" added to complete unfinished url
+    }
+
+    private void getProductDetails() {
+        // makes request to Zappos API using asin and handles response
+
+        Zappos.getAPI().searchByAsin(asin, new Callback<Product>() {
+            @Override
+            public void success(Product productDetails, Response response) {
+                productName = productDetails.getProductName();
+                description = productDetails.getDescription();
+                updateProductDetails(true);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e(TAG, error.getMessage());
+                Toast.makeText(activityContext, error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void restoreProductData(Bundle savedInstanceState) {
+        // retrieves key info from savedInstanceState upon config change
+
         productName = savedInstanceState.getString(Constants.PRODUCT);
         searchQuery = savedInstanceState.getString(Constants.QUERY);
         asin = savedInstanceState.getString(Constants.ASIN);
         price = savedInstanceState.getString(Constants.PRICE);
         rating = savedInstanceState.getString(Constants.RATING);
         description = savedInstanceState.getString(Constants.DESCRIPTION);
+
         Bitmap bitmap = (Bitmap) savedInstanceState.getParcelable(Constants.IMAGE);
         imgProduct.setImageBitmap(bitmap);
     }
@@ -114,26 +132,10 @@ public class ProductActivity extends SearchBarActivity {
                         Constants.LARGE_IMG);
     }
 
-    private void getProductDetails() {
-        Zappos.getAPI().searchByAsin(asin, new Callback<Product>() {
-            @Override
-            public void success(Product productDetails, Response response) {
-                productName = productDetails.getProductName();
-                description = productDetails.getDescription();
-                updateProductDetails(true);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e("NONe", error.getMessage());
-                Toast.makeText(activityContext, error.getMessage(), Toast.LENGTH_LONG).show();
-                new TextView(activityContext).setText("No results found.");
-            }
-        });
-    }
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        // saves key info when activity destroyed due to config change
+
         BitmapDrawable bd = (BitmapDrawable) imgProduct.getDrawable();
         Bitmap image = bd.getBitmap();
         outState.putParcelable(Constants.IMAGE, image);
@@ -147,6 +149,8 @@ public class ProductActivity extends SearchBarActivity {
     }
 
     private void updateProductDetails(Boolean isDataNew) {
+        // populates product details on screen
+        // if isDataNew is true, the image is reloaded
 
             // Populate TextViews
             tvProductName.setText(productName);
@@ -174,12 +178,11 @@ public class ProductActivity extends SearchBarActivity {
     public void shareProduct() {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
+
         String uri = generateURI().toString();
-        sendIntent.putExtra(Intent.EXTRA_TEXT, generateShareMessage(uri));
-        sendIntent.putExtra(Constants.ASIN,asin);
-        sendIntent.putExtra(Constants.PRICE,price);
-        sendIntent.putExtra(Constants.RATING,rating);
         sendIntent.putExtra(Constants.URI, Constants.ASIN_ENDPOINT + asin);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, generateShareMessage(uri));
+
         sendIntent.setData(Uri.parse(uri));
         sendIntent.setType("text/plain");
         startActivity(Intent.createChooser(sendIntent, null));

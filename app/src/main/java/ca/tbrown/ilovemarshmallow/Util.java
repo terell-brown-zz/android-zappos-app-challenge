@@ -6,7 +6,7 @@ package ca.tbrown.ilovemarshmallow;
 public class Util {
 
     public static String resizeImageByURL(String url, String oldSize, String desiredSize) {
-        // Changes segment of Image URL specifying size from oldSize new desiredSize
+        // Changes segment of Image URL specifying size from oldSize to desiredSize
         if (url.contains(oldSize)) {
             return url.replace(oldSize, desiredSize);
         }

@@ -13,10 +13,9 @@ import android.view.MenuItem;
 import ca.tbrown.ilovemarshmallow.Constants;
 import ca.tbrown.ilovemarshmallow.R;
 
-/**
- * Created by tmast_000 on 9/10/2015.
- */
+
 public class SearchBarActivity extends BaseActivity {
+    // A parent activity for other activities using a searchbar (ie. Results and Product Details Activity)
 
     // UI
     public SearchView searchbox;
@@ -40,9 +39,9 @@ public class SearchBarActivity extends BaseActivity {
     }
 
     public void setupSearchBox(Menu menu) {
-
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
+
         searchbox = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchbox.setSearchableInfo(searchableInfo);
         searchbox.setIconifiedByDefault(false);

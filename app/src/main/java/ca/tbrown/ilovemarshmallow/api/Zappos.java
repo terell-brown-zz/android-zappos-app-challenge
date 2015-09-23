@@ -5,6 +5,7 @@ import ca.tbrown.ilovemarshmallow.Constants;
 import ca.tbrown.ilovemarshmallow.api.ZapposAPI;import retrofit.RestAdapter;
 
 public class Zappos {
+    // Singleton for the Zappos API
 
     private static ZapposAPI api;
 
