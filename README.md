@@ -1,6 +1,8 @@
 # ILoveMarshmallow
 An app built as part of the 2015 Zappos Internship Challenge
 
+[Click here to download the APK](https://github.com/terell-brown/android-ILoveMarshmallow/blob/master/app/app-release.apk?raw=true)
+
 ### What does it do?
 1. Accepts a search query from the user
 2. Makes a request to the Zappos API using the search query
