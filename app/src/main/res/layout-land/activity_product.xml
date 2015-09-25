@@ -92,6 +92,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="@dimen/fab_marginRight"
+                            app:elevation="@dimen/fab_elevation"
                             android:src="@drawable/ic_fab_share"
                             app:backgroundTint="@color/colorPrimary" />
 
@@ -108,7 +109,12 @@
             </ScrollView>
         </LinearLayout>
 
-
+        <ProgressBar
+            android:id="@+id/progressBarProduct"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
     </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>
 

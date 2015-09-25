@@ -12,6 +12,7 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ public class ProductActivity extends SearchBarActivity {
     @Bind(R.id.tvRating) TextView tvRating;
     @Bind(R.id.productRatingBar) RatingBar productRatingBar;
     @Bind(R.id.fab) FloatingActionButton fab;
+    @Bind(R.id.progressBarProduct) ProgressBar progressBar;
 
     // Business Logic
     private String asin;
@@ -60,6 +62,7 @@ public class ProductActivity extends SearchBarActivity {
         setContentView(R.layout.activity_product);
         ButterKnife.bind(this);
         setupToolbar();
+        progressBar.setVisibility(View.VISIBLE);
 
         intent = getIntent();
         if (intent.getAction() == Intent.ACTION_VIEW) {
@@ -172,6 +175,8 @@ public class ProductActivity extends SearchBarActivity {
                     .centerInside()
                     .into(imgProduct);
         }
+
+        progressBar.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.fab)

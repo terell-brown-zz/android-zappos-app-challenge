@@ -37,4 +37,12 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBarResults"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
 </android.support.design.widget.CoordinatorLayout>

@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ public class SearchResultsActivity extends SearchBarActivity {
     private RecyclerView rvResults;
     private ResultAdapter adapter;
     private LinearLayoutManager layoutManager;
+    private ProgressBar progressBar;
 
     // Business Logic
     private ArrayList<Result> searchResults;
@@ -39,7 +42,7 @@ public class SearchResultsActivity extends SearchBarActivity {
         ButterKnife.bind(this);
         searchQuery = getSearchQuery();
         setupToolbar();
-
+        launchProgressBar();
         if (savedInstanceState != null) {
             // activity launched via configutation change
             restoreSearchData(savedInstanceState);
@@ -54,6 +57,11 @@ public class SearchResultsActivity extends SearchBarActivity {
         }
     }
 
+    private void launchProgressBar() {
+        progressBar = (ProgressBar) findViewById(R.id.progressBarResults);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
     private void restoreSearchData(Bundle savedInstanceState) {
         searchQuery = savedInstanceState.getString(Constants.QUERY);
         searchResults = savedInstanceState.getParcelableArrayList(Constants.SEARCH_RESULTS);
@@ -63,6 +71,7 @@ public class SearchResultsActivity extends SearchBarActivity {
     private void populateRecyclerView() {
         adapter = new ResultAdapter(activityContext, searchResults, searchQuery);
         rvResults.setAdapter(adapter);
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -116,7 +125,7 @@ public class SearchResultsActivity extends SearchBarActivity {
     private String getSearchQuery() {
         String query = null;
         Intent intent = getIntent();
-        if (intent.getAction().equals(Intent.ACTION_SEARCH)) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             // if activity launched do to execution of search bar
             query = intent.getStringExtra(SearchManager.QUERY);
         }
@@ -151,9 +160,10 @@ public class SearchResultsActivity extends SearchBarActivity {
         @Override
         public void success(Response response, retrofit.client.Response fullResponse) {
 
-                searchResults = response.getResults();
-                adapter = new ResultAdapter(activityContext, searchResults, searchQuery);
-                rvResults.setAdapter(adapter);
+            searchResults = response.getResults();
+            adapter = new ResultAdapter(activityContext, searchResults, searchQuery);
+            rvResults.setAdapter(adapter);
+            progressBar.setVisibility(View.GONE);
 
         }
 
@@ -164,6 +174,7 @@ public class SearchResultsActivity extends SearchBarActivity {
             } else {
                 Toast.makeText(activityContext, "There are no more items to load", Toast.LENGTH_SHORT).show();
             }
+            progressBar.setVisibility(View.GONE);
         }
     }
 
